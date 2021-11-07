@@ -9,7 +9,7 @@ const PostList = () => {
   const fetchPosts = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:${process.env.REACT_APP_PORT_POST}/posts`
+        `http://localhost:${process.env.REACT_APP_PORT_QUERY}/posts`
       );
       setPosts(res.data);
     } catch (err) {
@@ -21,8 +21,6 @@ const PostList = () => {
     fetchPosts();
   }, []);
 
-  console.log(posts);
-
   const renderedPosts = Object.values(posts).map((post) => (
     <div
       className="card"
@@ -30,7 +28,7 @@ const PostList = () => {
       key={post.id}>
       <div className="card-body">
         <h3>{post.title}</h3>
-        <CommentList postId={post.id} />
+        <CommentList comments={post.comments} />
         <CommentCreate postId={post.id} />
       </div>
     </div>
