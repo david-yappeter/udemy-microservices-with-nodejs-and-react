@@ -2,10 +2,13 @@ const express = require("express");
 require("dotenv").config();
 const { randomBytes } = require("crypto");
 const bodyParser = require("body-parser");
+const cors = require("cors");
+const axios = require("axios");
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 8081;
 app.use(bodyParser.json());
+app.use(cors());
 
 const commentsByPostId = {};
 
@@ -21,9 +24,31 @@ app.post("/posts/:id/comments", (req, res) => {
 
   comments.push({ id: commentId, content });
 
+  const eventBusTrigger = async (data) => {
+    try {
+      await axios.post(
+        `http://localhost:${process.env.REACT_APP_EVENT_BUS_PORT}/events`,
+        data
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  eventBusTrigger({
+    type: "CommentCreated",
+    data: { id: commentId, content, postId: req.params.id },
+  });
+
   commentsByPostId[req.params.id] = comments;
 
   res.status(201).send(comments);
+});
+
+app.post("/events", (req, res) => {
+  console.log("Received Event: ", req.body.type);
+
+  res.send({});
 });
 
 app.listen(port, () => {
