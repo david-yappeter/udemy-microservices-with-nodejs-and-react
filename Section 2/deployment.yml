@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  app: comments
+spec:
+  selector:
+    matchLabels:
+      app: comments
+  template:
+    metadata:
+      labels:
+        app: comments
+    spec:
+      containers:
+      - name: comments
+        image: davidyap/udemy-section2-comment
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8081
+        env:
+          - name: REACT_APP_EVENT_BUS_PORT
+            value: "8084"
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  app: posts
+spec:
+  selector:
+    matchLabels:
+      app: posts
+  template:
+    metadata:
+      labels:
+        app: posts
+    spec:
+      containers:
+      - name: posts
+        image: davidyap/udemy-section2-post
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+        env:
+          - name: REACT_APP_EVENT_BUS_PORT
+            value: "8084"
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  app: event-bus
+spec:
+  selector:
+    matchLabels:
+      app: event-bus
+  template:
+    metadata:
+      labels:
+        app: event-bus
+    spec:
+      containers:
+      - name: event-bus
+        image: davidyap/udemy-section2-event-bus
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8084
+        env:
+          - name: REACT_APP_PORT_POST
+            value: "8080"
+          - name: REACT_APP_PORT_COMMENT
+            value: "8081"
+          - name: REACT_APP_PORT_QUERY
+            value: "8085"
+        
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  app: query
+spec:
+  selector:
+    matchLabels:
+      app: query
+  template:
+    metadata:
+      labels:
+        app: query
+    spec:
+      containers:
+      - name: query
+        image: davidyap/udemy-section2-query
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8085
+        

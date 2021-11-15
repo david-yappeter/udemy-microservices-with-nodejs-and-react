@@ -13,28 +13,19 @@ app.post("/events", (req, res) => {
 
   const eventBusSend = async () => {
     try {
-      axios.post(
-        `http://localhost:${process.env.REACT_APP_PORT_POST}/events`,
-        event
-      );
+      axios.post(`${process.env.REACT_APP_POST_LINK}/events`, event);
     } catch (err) {
       console.log(err);
     }
 
     try {
-      await axios.post(
-        `http://localhost:${process.env.REACT_APP_PORT_COMMENT}/events`,
-        event
-      );
+      await axios.post(`${process.env.REACT_APP_COMMENT_LINK}/events`, event);
     } catch (err) {
       console.log(err);
     }
 
     try {
-      axios.post(
-        `http://localhost:${process.env.REACT_APP_PORT_QUERY}/events`,
-        event
-      );
+      axios.post(`${process.env.REACT_APP_QUERY_LINK}/events`, event);
     } catch (err) {
       console.log(err);
     }

@@ -28,7 +28,7 @@ app.post("/posts", (req, res) => {
   const eventBusTrigger = async (data) => {
     try {
       await axios.post(
-        `http://localhost:${process.env.REACT_APP_EVENT_BUS_PORT}/events`,
+        `${process.env.REACT_APP_EVENT_BUS_LINK}/events`,
         data
       );
     } catch (err) {
