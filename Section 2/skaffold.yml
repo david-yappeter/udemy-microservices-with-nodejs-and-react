@@ -1,0 +1,50 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - "./infra/*"
+build:
+  local:
+    push: true
+  artifacts:
+    - image: davidyap/udemy-section2-client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.js"
+            dest: .
+    - image: davidyap/udemy-section2-event-bus
+      context: event-bus
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "./*.js"
+            dest: .
+    - image: davidyap/udemy-section2-comment
+      context: comments
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "./*.js"
+            dest: .
+    - image: davidyap/udemy-section2-query
+      context: query
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "./*.js"
+            dest: .
+    - image: davidyap/udemy-section2-post
+      context: posts
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "./*.js"
+            dest: .
