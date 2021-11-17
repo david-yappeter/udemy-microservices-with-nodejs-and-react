@@ -10,7 +10,7 @@ const CommentCreate = ({ postId }) => {
   const { input, onChange, onSubmit } = useForm(initialState, async () => {
     try {
       await axios.post(
-        `http://localhost:${process.env.REACT_APP_PORT_COMMENT}/posts/${postId}/comments`,
+        `${process.env.REACT_APP_COMMENT_LINK}/posts/${postId}/comments`,
         input
       );
     } catch (err) {

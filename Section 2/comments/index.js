@@ -6,7 +6,7 @@ const cors = require("cors");
 const axios = require("axios");
 
 const app = express();
-const port = process.env.PORT || 8081;
+const port = process.env.REACT_APP_PORT || 8081;
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -26,10 +26,7 @@ app.post("/posts/:id/comments", (req, res) => {
 
   const eventBusTrigger = async (data) => {
     try {
-      await axios.post(
-        `http://localhost:${process.env.REACT_APP_EVENT_BUS_PORT}/events`,
-        data
-      );
+      await axios.post(`${process.env.REACT_APP_EVENT_BUS_LINK}/events`, data);
     } catch (err) {
       console.log(err);
     }

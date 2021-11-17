@@ -8,9 +8,7 @@ const PostList = () => {
 
   const fetchPosts = async () => {
     try {
-      const res = await axios.get(
-        `http://localhost:${process.env.REACT_APP_PORT_QUERY}/posts`
-      );
+      const res = await axios.get(`${process.env.REACT_APP_QUERY_LINK}/posts`);
       setPosts(res.data);
     } catch (err) {
       console.log(err);

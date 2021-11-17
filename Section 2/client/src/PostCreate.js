@@ -10,7 +10,7 @@ const PostCreate = () => {
   const { input, onChange, onSubmit } = useForm(initialState, async () => {
     try {
       const result = await axios.post(
-        `http://localhost:${process.env.REACT_APP_PORT_POST}/posts`,
+        `${process.env.REACT_APP_POST_LINK}/posts`,
         input
       );
 
