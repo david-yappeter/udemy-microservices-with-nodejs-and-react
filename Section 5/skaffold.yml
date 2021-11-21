@@ -1,0 +1,20 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - "./infra/k3s/*.yml"
+
+build:
+  local:
+    push: true
+  artifacts:
+    - image: davidyap/udemy-section5-auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile.dev
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    
