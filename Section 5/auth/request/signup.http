@@ -1,0 +1,24 @@
+# Validation Failed
+POST http://localhost:3000/api/users/signup HTTP/1.1
+content-type: application/json
+
+###
+
+# Validation Failed
+POST http://localhost:3000/api/users/signup HTTP/1.1
+content-type: application/json
+
+{
+    "email": "test@gmail.com"
+}
+
+###
+
+# Success
+POST http://localhost:3000/api/users/signup HTTP/1.1
+content-type: application/json
+
+{
+    "email": "mytest@gmail.com",
+    "password": "1231245215"
+}
