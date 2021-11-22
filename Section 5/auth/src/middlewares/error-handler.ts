@@ -8,8 +8,8 @@ export const errorHandler = (
 ) => {
     console.log('internal system error', err);
     
-    res.status(500).send({
-        message: 'internal system error'
+    res.status(400).send({
+        message: err,
     })
 }
 
