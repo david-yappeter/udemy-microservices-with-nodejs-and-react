@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { CustomError } from "../errors/custom-error";
 
 export const errorHandler = (
     err: Error, 
@@ -6,10 +7,18 @@ export const errorHandler = (
     res: Response, 
     next: NextFunction
 ) => {
-    console.log('internal system error', err);
+    if (!err) {
+        return next();
+    }
+
+    if(err instanceof CustomError) {
+        return res.status(err.statusCode).send({errors: err.serializeErrors()});
+    }
+
+    console.log('internal system error', err.message);
     
-    res.status(400).send({
-        message: err,
+    return res.status(500).send({
+        message: 'internal system error',
     })
 }
 
