@@ -8,9 +8,9 @@ import { signinRouter } from './routes/signin';
 import { signoutRouter } from './routes/signout';
 import { signupRouter } from './routes/signup';
 import { errorHandler } from './middlewares/error-handler';
-import { NotFoundError } from './errors/not-found-error';
-// import dotenv from 'dotenv';
-// dotenv.config();
+import { NotFoundError } from './errors/not-found';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const users: {[name: string]: User} = {}
 let currentUser: User | null | undefined = null;
@@ -30,13 +30,12 @@ app.use(errorHandler);
 
 (() => {
     try {
-        mongoose.connect(process.env.MONGO_URL || "", () => {
-            console.log('connected to mongo');
-        })
+        mongoose.connect(process.env.MONGO_URL || "");
     } catch (err) {
         console.log('error connecting to mongo', err);
     }
 
+    console.log("Connected to mongo")
 })();
 
 app.listen(port, () => {console.log(`Listening on http://localhost:${port}`)});
