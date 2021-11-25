@@ -1,6 +1,8 @@
 import express from 'express';
+require('express-async-errors');
 import { json } from 'body-parser';
 import User from './User';
+import mongoose from 'mongoose';
 import { currentUserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin';
 import { signoutRouter } from './routes/signout';
@@ -25,5 +27,16 @@ app.all('*', (req, res) => {
     throw new NotFoundError()
 })
 app.use(errorHandler);
+
+(() => {
+    try {
+        mongoose.connect(process.env.MONGO_URL || "", () => {
+            console.log('connected to mongo');
+        })
+    } catch (err) {
+        console.log('error connecting to mongo', err);
+    }
+
+})();
 
 app.listen(port, () => {console.log(`Listening on http://localhost:${port}`)});
